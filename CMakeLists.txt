@@ -3,4 +3,4 @@ project(Dissertation)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "-std=c++11 -O3")
-add_executable(Dissertation main.cpp BrentComponent.cpp)
+add_executable(Dissertation main.cpp)
