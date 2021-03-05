@@ -1,0 +1,3 @@
+"C:\Program Files\JetBrains\CLion 2020.3.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\Dissertation.dir/objects.a
+C:\CCompiler\bin\ar.exe cr CMakeFiles\Dissertation.dir/objects.a @CMakeFiles\Dissertation.dir\objects1.rsp
+C:\CCompiler\bin\g++.exe -std=c++11 -O3 -g   -Wl,--whole-archive CMakeFiles\Dissertation.dir/objects.a -Wl,--no-whole-archive  -o Dissertation.exe -Wl,--out-implib,libDissertation.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Dissertation.dir\linklibs.rsp

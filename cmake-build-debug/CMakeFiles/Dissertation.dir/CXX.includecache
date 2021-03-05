@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/balis/CLionProjects/Dissertation/BrentComponent.h
+stdint.h
+-
+ostream
+-
+
+C:/Users/balis/CLionProjects/Dissertation/main.cpp
+iostream
+-
+stdint.h
+-
+stdlib.h
+-
+vector
+-
+BrentComponent.h
+C:/Users/balis/CLionProjects/Dissertation/BrentComponent.h
+
