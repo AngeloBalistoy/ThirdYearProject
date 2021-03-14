@@ -93,12 +93,12 @@ clean: CMakeFiles/Dissertation.dir/clean
 CMakeFiles/Dissertation.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles --progress-num=1,2,3 "Built target Dissertation"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles --progress-num=1,2 "Built target Dissertation"
 .PHONY : CMakeFiles/Dissertation.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Dissertation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles 2
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/Dissertation.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles 0
 .PHONY : CMakeFiles/Dissertation.dir/rule

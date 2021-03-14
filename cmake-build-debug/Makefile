@@ -142,33 +142,6 @@ Dissertation/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/build
 .PHONY : Dissertation/fast
 
-BrentComponent.obj: BrentComponent.cpp.obj
-
-.PHONY : BrentComponent.obj
-
-# target to build an object file
-BrentComponent.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/BrentComponent.cpp.obj
-.PHONY : BrentComponent.cpp.obj
-
-BrentComponent.i: BrentComponent.cpp.i
-
-.PHONY : BrentComponent.i
-
-# target to preprocess a source file
-BrentComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/BrentComponent.cpp.i
-.PHONY : BrentComponent.cpp.i
-
-BrentComponent.s: BrentComponent.cpp.s
-
-.PHONY : BrentComponent.s
-
-# target to generate assembly for a file
-BrentComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\Dissertation.dir\build.make CMakeFiles/Dissertation.dir/BrentComponent.cpp.s
-.PHONY : BrentComponent.cpp.s
-
 main.obj: main.cpp.obj
 
 .PHONY : main.obj
@@ -205,9 +178,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... Dissertation
-	@echo ... BrentComponent.obj
-	@echo ... BrentComponent.i
-	@echo ... BrentComponent.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

@@ -82,12 +82,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/Users/balis/CLionProjects/Dissertation/BrentComponent.cpp">
-			<Option target="Dissertation"/>
-		</Unit>
-		<Unit filename="C:/Users/balis/CLionProjects/Dissertation/BrentComponent.h">
-			<Option target="Dissertation"/>
-		</Unit>
 		<Unit filename="C:/Users/balis/CLionProjects/Dissertation/main.cpp">
 			<Option target="Dissertation"/>
 		</Unit>

@@ -11,6 +11,8 @@ stdint.h
 -
 ostream
 -
+vector
+-
 
 C:/Users/balis/CLionProjects/Dissertation/main.cpp
 iostream

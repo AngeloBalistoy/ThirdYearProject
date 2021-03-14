@@ -106,6 +106,6 @@ int main(int argc, char *argv[]) {
             std::cout << firstOrder.at(i).at(j) << " ";
         }
     }
-
+    recurseTranslate(firstOrder);
     return 0;
 }

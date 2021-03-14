@@ -3,8 +3,11 @@
 //
 #include <stdint.h>
 #include <ostream>
+#include <vector>
 #ifndef DISSERTATION_BRENTCOMPONENT_H
 #define DISSERTATION_BRENTCOMPONENT_H
+
+typedef int16_t literal;
 //Functions
 
 
@@ -54,5 +57,7 @@ struct Delta {
 
 };
 bool processRHS(Delta);
+
+void recurseTranslate(std::vector<std::vector<uint16_t> > firstOrder);
 
 #endif //DISSERTATION_BRENTCOMPONENT_H

@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Dissertation.dir/BrentComponent.cpp.obj"
   "CMakeFiles/Dissertation.dir/main.cpp.obj"
   "Dissertation.exe"
   "Dissertation.exe.manifest"
