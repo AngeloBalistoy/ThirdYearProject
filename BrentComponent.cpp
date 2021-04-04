@@ -3,36 +3,35 @@
 //
 #include <iostream>
 #include "BrentComponent.h"
+
 bool processRHS(Delta d) {
     return (d.d1.index.first == d.d1.index.second) &&
            (d.d2.index.first == d.d2.index.second) &&
            (d.d3.index.first == d.d3.index.second);
 }
 
-void recurseTranslate(std::vector<std::vector<uint16_t> > firstOrder) {
-    std::size_t const halfSize = firstOrder.size() / 2;
-    std::vector<std::vector<uint16_t> >leftHalf(firstOrder.begin(), firstOrder.begin() + halfSize);
-    std::vector<std::vector<uint16_t> > rightHalf(firstOrder.begin() + halfSize, firstOrder.end());
-    if (leftHalf.size() == 1 || leftHalf.size() == 2) {
-        std::cout << "LHS base case reached!" << std::endl;
-        //do some processing
-        if (leftHalf.size() == 1) {
-            //answer is just returning this pair
-        }
-        return
-    }
-    else {
-        recurseTranslate(leftHalf);
-    }
-    if (rightHalf.size() == 1 || rightHalf.size() == 2) {
-        std::cout << "RHS base case reached!" << std::endl;
-        //do some processing
-    }
 
-
+S_Variable::S_Variable(BrentComponent a, BrentComponent b) {
+    this->productNumber = a.productNumber;
+    this->index1 = a.index;
+    this->index2 = b.index;
+}
+uint16_t T_Variable::counter = 0;
+T_Variable::T_Variable(S_Variable s, BrentComponent c) : literal(++counter){
+    this->productNumber = s.productNumber;
+    this->index1 = s.index1;
+    this->index2 = s.index2;
+    this->index3 = c.index;
 
 }
 
-std::vector<uint16_t> twoPairCase(std::vector<uint16_t> a, std::vector<uint16_t>b) {
-    std::vector<uint16_t> firstClause = {b.at(1),-b.at(0),- a.at(1),-a.at(2)}
+void XOR_Encoding(std::vector<T_Variable> t) {
+    size_t size = t.size();
+
 }
+uint16_t BrentExpression::counter = 0;
+BrentExpression::BrentExpression(const BrentComponent &alpha, const BrentComponent &beta, const BrentComponent &gamma) :
+        literal(++counter), alpha(alpha), beta(beta), gamma(gamma) {};
+
+
+

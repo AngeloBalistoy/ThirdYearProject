@@ -79,15 +79,15 @@ include CMakeFiles/Dissertation.dir/flags.make
 CMakeFiles/Dissertation.dir/main.cpp.obj: CMakeFiles/Dissertation.dir/flags.make
 CMakeFiles/Dissertation.dir/main.cpp.obj: ../main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\balis\CLionProjects\Dissertation\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Dissertation.dir/main.cpp.obj"
-	C:\CCompiler\bin\g++.exe  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Dissertation.dir\main.cpp.obj -c C:\Users\balis\CLionProjects\Dissertation\main.cpp
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles\Dissertation.dir\main.cpp.obj -c C:\Users\balis\CLionProjects\Dissertation\main.cpp
 
 CMakeFiles/Dissertation.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Dissertation.dir/main.cpp.i"
-	C:\CCompiler\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\balis\CLionProjects\Dissertation\main.cpp > CMakeFiles\Dissertation.dir\main.cpp.i
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\balis\CLionProjects\Dissertation\main.cpp > CMakeFiles\Dissertation.dir\main.cpp.i
 
 CMakeFiles/Dissertation.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Dissertation.dir/main.cpp.s"
-	C:\CCompiler\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\balis\CLionProjects\Dissertation\main.cpp -o CMakeFiles\Dissertation.dir\main.cpp.s
+	C:\PROGRA~1\MINGW-~1\X86_64~1.0-P\mingw64\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\balis\CLionProjects\Dissertation\main.cpp -o CMakeFiles\Dissertation.dir\main.cpp.s
 
 # Object files for target Dissertation
 Dissertation_OBJECTS = \
