@@ -118,67 +118,16 @@ int main(int argc, char *argv[]) {
         leftHandSideAsTVariables.push_back(t_Variables);
         t_Variables.clear();
     }
-    std::vector<std::vector<bool>> evenCombinations{};
+
     std::vector<std::vector<bool>> oddCombinations{};
 
 
     std::ofstream outputFileEven("negative.txt");
     std::ofstream outputFileOdd("negative2.txt");
-    std::vector<bool> clause(numberOfMultiplications);
-    int evenStart,oddStart;
-    evenStart = numberOfMultiplications%2 == 0 ? 0 : 1;
-    oddStart = numberOfMultiplications%2 == 0 ? 1 : 0;
-
-    for (evenStart; evenStart <= clause.size(); evenStart += 2) {
-        for (int value = 0; value < clause.size(); value++) {
-            clause.at(value) = 1;
-        }
-        for (int j = 0; j < evenStart; j++) {
-            clause.at(j) = 0;
-        }
-        evenCombinations.push_back(clause);
-    }
-    for (auto num : evenCombinations) {
-        for (auto elem : num) {
-            std::cout << elem << ",";
-        }
-        std::cout << std::endl;
-    }
-    std::cout << "ODD:" << std::endl;
-    for (oddStart; oddStart <= clause.size(); oddStart += 2) {
-        for (int value = 0; value < clause.size(); value++) {
-            clause.at(value) = 1;
-        }
-        for (int j = 0; j < oddStart; j++) {
-            clause.at(j) = 0;
-        }
-        oddCombinations.push_back(clause);
-    }
-    for (auto num : oddCombinations) {
-        for (auto elem : num) {
-            std::cout << elem << ",";
-        }
-        std::cout << std::endl;
-    }
+    createOddNumberOfCombinations(outputFileOdd,numberOfMultiplications);
+    createEvenNumberOfCombinations(outputFileEven,numberOfMultiplications);
 
 
-    for (auto i : evenCombinations) {
-        do {
-            for (auto j : i) {
-                outputFileEven << j << " ";
-            }
-            outputFileEven << std::endl;
-        } while (std::next_permutation(i.begin(), i.end()));
-    }
-
-    for (auto i : oddCombinations) {
-        do {
-            for (auto j : i) {
-                outputFileOdd << j << " ";
-            }
-            outputFileOdd << std::endl;
-        } while (std::next_permutation(i.begin(), i.end()));
-    }
 
     std::cout << "Opening Files now" << std::endl;
     std::ifstream evenFile;

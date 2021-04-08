@@ -33,5 +33,70 @@ uint16_t BrentExpression::counter = 0;
 BrentExpression::BrentExpression(const BrentComponent &alpha, const BrentComponent &beta, const BrentComponent &gamma) :
         literal(++counter), alpha(alpha), beta(beta), gamma(gamma) {};
 
+void createOddNumberOfCombinations(std::ostream& outputFileOdd,uint16_t numberOfMultiplications) {
+    uint16_t oddStart = numberOfMultiplications%2 == 0 ? 1 : 0;
+    std::vector<std::vector<bool>> oddCombinations{};
+    std::vector<bool> clause(numberOfMultiplications);
+    //Generate odd clauses
+    for (oddStart; oddStart <= clause.size(); oddStart += 2) {
+        for (int value = 0; value < clause.size(); value++) {
+            clause.at(value) = 1;
+        }
+        for (int j = 0; j < oddStart; j++) {
+            clause.at(j) = 0;
+        }
+        oddCombinations.push_back(clause);
+    }
+    //display
+    std::cout << "ODD:" << std::endl;
+
+    for (auto num : oddCombinations) {
+        for (auto elem : num) {
+            std::cout << elem << ",";
+        }
+        std::cout << std::endl;
+    }
+    //output to a file
+    for (auto i : oddCombinations) {
+        do {
+            for (auto j : i) {
+                outputFileOdd << j << " ";
+            }
+            outputFileOdd << std::endl;
+        } while (std::next_permutation(i.begin(), i.end()));
+    }
+}
+
+void createEvenNumberOfCombinations(std::ostream& outputFileEven,uint16_t numberOfMultiplications) {
+    std::vector<bool> clause(numberOfMultiplications);
+    std::vector<std::vector<bool>> evenCombinations{};
+    uint16_t evenStart = numberOfMultiplications%2 == 0 ? 0 : 1;
+
+    for (evenStart; evenStart <= clause.size(); evenStart += 2) {
+        for (int value = 0; value < clause.size(); value++) {
+            clause.at(value) = 1;
+        }
+        for (int j = 0; j < evenStart; j++) {
+            clause.at(j) = 0;
+        }
+        evenCombinations.push_back(clause);
+    }
+    for (auto num : evenCombinations) {
+        for (auto elem : num) {
+            std::cout << elem << ",";
+        }
+        std::cout << std::endl;
+    }
+
+    for (auto i : evenCombinations) {
+        do {
+            for (auto j : i) {
+                outputFileEven << j << " ";
+            }
+            outputFileEven << std::endl;
+        } while (std::next_permutation(i.begin(), i.end()));
+    }
+
+}
 
 

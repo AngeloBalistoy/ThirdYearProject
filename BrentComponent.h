@@ -97,6 +97,7 @@ bool processRHS(Delta);
 
 void recurseTranslate(std::vector<std::vector<uint16_t> > firstOrder);
 
-
+void createOddNumberOfCombinations(std::ostream& outputFileOdd,uint16_t numberOfMultiplications);
+void createEvenNumberOfCombinations(std::ostream& outputFileEven,uint16_t numberOfMultiplications);
 
 #endif //DISSERTATION_BRENTCOMPONENT_H
