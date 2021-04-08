@@ -118,16 +118,147 @@ int main(int argc, char *argv[]) {
         leftHandSideAsTVariables.push_back(t_Variables);
         t_Variables.clear();
     }
-    std::vector<std::vector<uint16_t> > tVariableLit;
-    for(auto x : leftHandSideAsTVariables) {
-        for(auto y : x) {
-            std::cout << y.literal << " ";
+    std::vector<std::vector<bool>> evenCombinations{};
+    std::vector<std::vector<bool>> oddCombinations{};
+
+
+    std::ofstream outputFileEven("negative.txt");
+    std::ofstream outputFileOdd("negative2.txt");
+    std::vector<bool> clause(numberOfMultiplications);
+    int evenStart,oddStart;
+    evenStart = numberOfMultiplications%2 == 0 ? 0 : 1;
+    oddStart = numberOfMultiplications%2 == 0 ? 1 : 0;
+
+    for (evenStart; evenStart <= clause.size(); evenStart += 2) {
+        for (int value = 0; value < clause.size(); value++) {
+            clause.at(value) = 1;
+        }
+        for (int j = 0; j < evenStart; j++) {
+            clause.at(j) = 0;
+        }
+        evenCombinations.push_back(clause);
+    }
+    for (auto num : evenCombinations) {
+        for (auto elem : num) {
+            std::cout << elem << ",";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << "ODD:" << std::endl;
+    for (oddStart; oddStart <= clause.size(); oddStart += 2) {
+        for (int value = 0; value < clause.size(); value++) {
+            clause.at(value) = 1;
+        }
+        for (int j = 0; j < oddStart; j++) {
+            clause.at(j) = 0;
+        }
+        oddCombinations.push_back(clause);
+    }
+    for (auto num : oddCombinations) {
+        for (auto elem : num) {
+            std::cout << elem << ",";
         }
         std::cout << std::endl;
     }
 
 
+    for (auto i : evenCombinations) {
+        do {
+            for (auto j : i) {
+                outputFileEven << j << " ";
+            }
+            outputFileEven << std::endl;
+        } while (std::next_permutation(i.begin(), i.end()));
+    }
+
+    for (auto i : oddCombinations) {
+        do {
+            for (auto j : i) {
+                outputFileOdd << j << " ";
+            }
+            outputFileOdd << std::endl;
+        } while (std::next_permutation(i.begin(), i.end()));
+    }
+
+    std::cout << "Opening Files now" << std::endl;
+    std::ifstream evenFile;
+    std::ifstream oddFile;
+    evenFile.open("negative.txt");
+    oddFile.open("negative2.txt");
+    std::string s;
+    std::vector<std::vector<bool> > even = {};
+    std::vector<std::vector<bool> > odd = {};
+    if (evenFile.is_open()) {
+        while (std::getline(evenFile, s)) {
+            std::vector<bool> clause = {};
+            for (auto value : s) {
+                if (value == '0') {
+                    clause.push_back(0);
+                } else if (value == '1') {
+                    clause.push_back(1);
+                }
+            }
+            even.push_back(clause);
+
+        }
+    }
+    std::cout << "Opening Odd Files now" << std::endl;
+    if (oddFile.is_open()) {
+        while (std::getline(oddFile, s)) {
+            std::vector<bool> clause = {};
+            for (auto value : s) {
+                if (value == '0') {
+                    clause.push_back(0);
+                } else if (value == '1') {
+                    clause.push_back(1);
+                }
+            }
+            odd.push_back(clause);
+
+        }
+    }
+
+    std::vector<int> literalLine = {};
+    std::vector<std::vector<int> > literalLineHolder = {};
+
+    for (auto x : leftHandSideAsTVariables) {
+        for (auto y : x) {
+            literalLine.push_back(y.literal);
+        }
+        literalLineHolder.push_back(literalLine);
+        literalLine.clear();
+
+    }
+    std::cout << "Constructing Output now" << std::endl;
+
+    std::ofstream outputFile("C:\\cygwin\\bin\\input.in");
+    outputFile << "p cnf " << literalLineHolder.size()*literalLineHolder.at(0).size() << " " << even.size()*literalLineHolder.size() << std::endl;
+    for (int i = 0; i < literalLineHolder.size(); i++) {
+        bool equationIsOdd = processRHS(rightHandSide.at(i));
+        std::vector<int> currentClauseLine = literalLineHolder.at(i);
+        if (equationIsOdd) {
+            for (auto oddLine : odd) {
+                for(int i = 0; i < currentClauseLine.size(); i++) {
+                    int literalToPush = oddLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
+                    outputFile << literalToPush << " ";
+                }
+                outputFile << "0" << std::endl;
+            }
+        }
+        else {
+            for (auto evenLine : even) {
+                for(int i = 0; i < currentClauseLine.size(); i++) {
+                    int literalToPush = evenLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
+                    outputFile << literalToPush << " ";
+                }
+                outputFile << "0" << std::endl;
+            }
+        }
 
 
+    }
+    for(int i = 0; i < rightHandSide.size(); i++) {
+        std::cout << i << ": " << processRHS(rightHandSide.at(i)) << std::endl;
+    }
 
 }

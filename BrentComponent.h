@@ -5,6 +5,8 @@
 #include <ostream>
 #include <vector>
 #include <math.h>
+#include <fstream>
+#include<algorithm>
 #include<unordered_map>
 #ifndef DISSERTATION_BRENTCOMPONENT_H
 #define DISSERTATION_BRENTCOMPONENT_H
