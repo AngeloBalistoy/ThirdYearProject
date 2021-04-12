@@ -29,16 +29,16 @@ int main(int argc, char *argv[]) {
     uint16_t matrixSize = atoi(argv[2]);
 
     //Left Hand Side Deltas
-    for (index i = 0; i < matrixSize; i++) {
-        for (index j = 0; j < matrixSize; j++) {
-            for (index k = 0; k < matrixSize; k++) {
-                for (index l = 0; l < matrixSize; l++) {
-                    for (index m = 0; m < matrixSize; m++) {
-                        for (index n = 0; n < matrixSize; n++) {
+    for (index i = 1; i <= matrixSize; i++) {
+        for (index j = 1; j <= matrixSize; j++) {
+            for (index k = 1; k <= matrixSize; k++) {
+                for (index l = 1; l <= matrixSize; l++) {
+                    for (index m = 1; m <= matrixSize; m++) {
+                        for (index n = 1; n <= matrixSize; n++) {
                             //Produce every combination of rightHandSide (d(i,j)*d(k,l)*d(m,n))
-                            BrentComponentIndex index1 = {n, i};
-                            BrentComponentIndex index2 = {j, k};
-                            BrentComponentIndex index3 = {l, m};
+                            BrentComponentIndex index1 = {j, k};
+                            BrentComponentIndex index2 = {i, m};
+                            BrentComponentIndex index3 = {l, n};
                             DeltaComponent d1 = {index1};
                             DeltaComponent d2 = {index2};
                             DeltaComponent d3 = {index3};
@@ -50,9 +50,9 @@ int main(int argc, char *argv[]) {
                                 BrentComponentIndex index1 = {i, j};
                                 BrentComponentIndex index2 = {k, l};
                                 BrentComponentIndex index3 = {m, n};
-                                BrentComponent alpha = {productNumber, index1};
-                                BrentComponent beta = {productNumber, index2};
-                                BrentComponent gamma = {productNumber, index3};
+                                BrentComponent alpha(productNumber, index1);
+                                BrentComponent beta(productNumber, index2);
+                                BrentComponent gamma(productNumber, index3);
                                 BrentExpression b = BrentExpression(alpha, beta, gamma);
                                 brentComponents.push_back(b);
                             }
@@ -110,8 +110,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < leftHandSide.size(); i++) {
         for (int j = 0; j < leftHandSide.at(i).size(); j++) {
             BrentExpression be = leftHandSide.at(i).at(j);
-            S_Variable s = S_Variable(be.alpha, be.beta);
-            T_Variable t = T_Variable(s, be.gamma);
+            T_Variable t = T_Variable(be.alpha,be.beta,be.gamma);
             t_Variables.push_back(t);
         }
 
@@ -124,9 +123,8 @@ int main(int argc, char *argv[]) {
 
     std::ofstream outputFileEven("negative.txt");
     std::ofstream outputFileOdd("negative2.txt");
-    createOddNumberOfCombinations(outputFileOdd,numberOfMultiplications);
-    createEvenNumberOfCombinations(outputFileEven,numberOfMultiplications);
-
+    createOddNumberOfCombinations(outputFileOdd, numberOfMultiplications);
+    createEvenNumberOfCombinations(outputFileEven, numberOfMultiplications);
 
 
     std::cout << "Opening Files now" << std::endl;
@@ -178,25 +176,26 @@ int main(int argc, char *argv[]) {
         literalLine.clear();
 
     }
-    std::cout << "Constructing Output now" << std::endl;
+    std::cout << "Constructing Output now" << std::endl << literalLineHolder.size() << std::endl;
 
     std::ofstream outputFile("C:\\cygwin\\bin\\input.in");
-    outputFile << "p cnf " << literalLineHolder.size()*literalLineHolder.at(0).size() << " " << even.size()*literalLineHolder.size() << std::endl;
+    outputFile << "p cnf " << literalLineHolder.size() * literalLineHolder.at(0).size() * 4 << " "
+               << even.size() * literalLineHolder.size() +
+                  4 * leftHandSideAsTVariables.size() * leftHandSideAsTVariables.at(0).size() << std::endl;
     for (int i = 0; i < literalLineHolder.size(); i++) {
         bool equationIsOdd = processRHS(rightHandSide.at(i));
         std::vector<int> currentClauseLine = literalLineHolder.at(i);
         if (equationIsOdd) {
             for (auto oddLine : odd) {
-                for(int i = 0; i < currentClauseLine.size(); i++) {
+                for (int i = 0; i < currentClauseLine.size(); i++) {
                     int literalToPush = oddLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
                     outputFile << literalToPush << " ";
                 }
                 outputFile << "0" << std::endl;
             }
-        }
-        else {
+        } else {
             for (auto evenLine : even) {
-                for(int i = 0; i < currentClauseLine.size(); i++) {
+                for (int i = 0; i < currentClauseLine.size(); i++) {
                     int literalToPush = evenLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
                     outputFile << literalToPush << " ";
                 }
@@ -206,8 +205,23 @@ int main(int argc, char *argv[]) {
 
 
     }
-    for(int i = 0; i < rightHandSide.size(); i++) {
-        std::cout << i << ": " << processRHS(rightHandSide.at(i)) << std::endl;
+
+    for (int i = 0; i < leftHandSideAsTVariables.size(); i++) {
+        for (int j = 0; j < leftHandSideAsTVariables.at(i).size(); j++) {
+            T_Variable t = leftHandSideAsTVariables.at(i).at(j);
+            literal tLiteral = t.literal;
+            literal alphaLit = t.A.literal;
+            literal betaLit = t.B.literal;
+            literal gammaLit = t.G.literal;
+
+            outputFile << -alphaLit << " " << -betaLit << " " << -gammaLit << " " << tLiteral << " 0" << std::endl;
+            outputFile << -tLiteral << " " << alphaLit << " 0" << std::endl;
+            outputFile << -tLiteral << " " << betaLit << " 0" << std::endl;
+            outputFile << -tLiteral << " " << gammaLit << " 0" << std::endl;
+
+
+        }
     }
+
 
 }

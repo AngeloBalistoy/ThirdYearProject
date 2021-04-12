@@ -9,19 +9,19 @@ bool processRHS(Delta d) {
            (d.d2.index.first == d.d2.index.second) &&
            (d.d3.index.first == d.d3.index.second);
 }
+/*
 
-
-S_Variable::S_Variable(BrentComponent a, BrentComponent b) {
-    this->productNumber = a.productNumber;
-    this->index1 = a.index;
-    this->index2 = b.index;
+S_Variable::S_Variable(BrentComponent& a, BrentComponent& b) : literal(++counter){
+    this->alpha = a;
+    this->beta = b;
 }
-uint16_t T_Variable::counter = 0;
-T_Variable::T_Variable(S_Variable s, BrentComponent c) : literal(++counter){
-    this->productNumber = s.productNumber;
-    this->index1 = s.index1;
-    this->index2 = s.index2;
-    this->index3 = c.index;
+ */
+uint16_t ContainsLiteral::counter = 0;
+
+T_Variable::T_Variable(BrentComponent& A,BrentComponent& B, BrentComponent& G) : literal(++counter){
+    this->A = A;
+    this->B = B;
+    this->G = G;
 
 }
 
@@ -29,9 +29,11 @@ void XOR_Encoding(std::vector<T_Variable> t) {
     size_t size = t.size();
 
 }
-uint16_t BrentExpression::counter = 0;
+BrentComponent::BrentComponent(uint16_t& productNumber, BrentComponentIndex& index) : literal(++counter),productNumber(productNumber),index(index) {
+
+};
 BrentExpression::BrentExpression(const BrentComponent &alpha, const BrentComponent &beta, const BrentComponent &gamma) :
-        literal(++counter), alpha(alpha), beta(beta), gamma(gamma) {};
+ alpha(alpha), beta(beta), gamma(gamma) {};
 
 void createOddNumberOfCombinations(std::ostream& outputFileOdd,uint16_t numberOfMultiplications) {
     uint16_t oddStart = numberOfMultiplications%2 == 0 ? 1 : 0;
@@ -48,14 +50,7 @@ void createOddNumberOfCombinations(std::ostream& outputFileOdd,uint16_t numberOf
         oddCombinations.push_back(clause);
     }
     //display
-    std::cout << "ODD:" << std::endl;
 
-    for (auto num : oddCombinations) {
-        for (auto elem : num) {
-            std::cout << elem << ",";
-        }
-        std::cout << std::endl;
-    }
     //output to a file
     for (auto i : oddCombinations) {
         do {
@@ -81,12 +76,6 @@ void createEvenNumberOfCombinations(std::ostream& outputFileEven,uint16_t number
         }
         evenCombinations.push_back(clause);
     }
-    for (auto num : evenCombinations) {
-        for (auto elem : num) {
-            std::cout << elem << ",";
-        }
-        std::cout << std::endl;
-    }
 
     for (auto i : evenCombinations) {
         do {
@@ -96,6 +85,13 @@ void createEvenNumberOfCombinations(std::ostream& outputFileEven,uint16_t number
             outputFileEven << std::endl;
         } while (std::next_permutation(i.begin(), i.end()));
     }
+
+
+
+}
+
+
+BrentComponent::BrentComponent() {
 
 }
 
