@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     std::vector<uint16_t> literals;
     std::vector<std::vector<uint16_t> > firstOrder;
     std::vector<T_Variable> t_Variables;
-    std::vector<std::vector<T_Variable> > leftHandSideAsTVariables;
+    std::vector<T_VariableHolder> leftHandSideAsTVariables;
 
 
     if (argc != 3) {
@@ -110,11 +110,12 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < leftHandSide.size(); i++) {
         for (int j = 0; j < leftHandSide.at(i).size(); j++) {
             BrentExpression be = leftHandSide.at(i).at(j);
-            T_Variable t = T_Variable(be.alpha,be.beta,be.gamma);
+            T_Variable t = T_Variable(be.alpha, be.beta, be.gamma);
             t_Variables.push_back(t);
         }
-
-        leftHandSideAsTVariables.push_back(t_Variables);
+        T_VariableHolder th = T_VariableHolder();
+        th.holder = t_Variables;
+        leftHandSideAsTVariables.push_back(th);
         t_Variables.clear();
     }
 
@@ -123,18 +124,20 @@ int main(int argc, char *argv[]) {
 
     std::ofstream outputFileEven("negative.txt");
     std::ofstream outputFileOdd("negative2.txt");
-    createOddNumberOfCombinations(outputFileOdd, numberOfMultiplications);
-    createEvenNumberOfCombinations(outputFileEven, numberOfMultiplications);
+    createOddNumberOfCombinations(outputFileOdd, numberOfMultiplications+1);
+    createEvenNumberOfCombinations(outputFileEven, numberOfMultiplications+1);
 
 
     std::cout << "Opening Files now" << std::endl;
-    std::ifstream evenFile;
+
     std::ifstream oddFile;
+    std::ifstream evenFile;
     evenFile.open("negative.txt");
     oddFile.open("negative2.txt");
     std::string s;
     std::vector<std::vector<bool> > even = {};
     std::vector<std::vector<bool> > odd = {};
+
     if (evenFile.is_open()) {
         while (std::getline(evenFile, s)) {
             std::vector<bool> clause = {};
@@ -149,6 +152,7 @@ int main(int argc, char *argv[]) {
 
         }
     }
+
     std::cout << "Opening Odd Files now" << std::endl;
     if (oddFile.is_open()) {
         while (std::getline(oddFile, s)) {
@@ -168,8 +172,17 @@ int main(int argc, char *argv[]) {
     std::vector<int> literalLine = {};
     std::vector<std::vector<int> > literalLineHolder = {};
 
+    for(auto const& x : leftHandSideAsTVariables) {
+        std::cout << x.literal << " ";
+        for(auto const& y : x.holder) {
+            std::cout << y.literal << " ";
+        }
+        std::cout << std::endl;
+
+    }
+    std::cout << "Size " << rightHandSide.size() << std::endl;
     for (auto x : leftHandSideAsTVariables) {
-        for (auto y : x) {
+        for (auto y : x.holder) {
             literalLine.push_back(y.literal);
         }
         literalLineHolder.push_back(literalLine);
@@ -179,48 +192,73 @@ int main(int argc, char *argv[]) {
     std::cout << "Constructing Output now" << std::endl << literalLineHolder.size() << std::endl;
 
     std::ofstream outputFile("C:\\cygwin\\bin\\input.in");
-    outputFile << "p cnf " << literalLineHolder.size() * literalLineHolder.at(0).size() * 4 << " "
-               << even.size() * literalLineHolder.size() +
-                  4 * leftHandSideAsTVariables.size() * leftHandSideAsTVariables.at(0).size() << std::endl;
+    outputFile << "p cnf " << literalLineHolder.size() * literalLineHolder.at(0).size() * 4 + leftHandSideAsTVariables.size() << " "
+               << odd.size() * literalLineHolder.size() +
+                  4 * leftHandSideAsTVariables.size() * leftHandSideAsTVariables.at(0).holder.size() +
+                  leftHandSideAsTVariables.size() << std::endl;
     for (int i = 0; i < literalLineHolder.size(); i++) {
         bool equationIsOdd = processRHS(rightHandSide.at(i));
         std::vector<int> currentClauseLine = literalLineHolder.at(i);
-        if (equationIsOdd) {
+        currentClauseLine.push_back(leftHandSideAsTVariables.at(i).literal);
+        if(equationIsOdd) {
             for (auto oddLine : odd) {
                 for (int i = 0; i < currentClauseLine.size(); i++) {
                     int literalToPush = oddLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
                     outputFile << literalToPush << " ";
                 }
+
                 outputFile << "0" << std::endl;
             }
-        } else {
+        }
+        else {
             for (auto evenLine : even) {
                 for (int i = 0; i < currentClauseLine.size(); i++) {
                     int literalToPush = evenLine.at(i) ? -currentClauseLine.at(i) : currentClauseLine.at(i);
                     outputFile << literalToPush << " ";
                 }
+
                 outputFile << "0" << std::endl;
+            }
+
+        }
+    }
+
+
+    for (int i = 0; i < leftHandSideAsTVariables.size(); i++) {
+        bool equationIsOdd = processRHS(rightHandSide.at(i));
+        if (!equationIsOdd) {
+            outputFile << leftHandSideAsTVariables.at(i).literal << " 0" << std::endl;
+            for (int j = 0; j < leftHandSideAsTVariables.at(i).holder.size(); j++) {
+                T_Variable t = leftHandSideAsTVariables.at(i).holder.at(j);
+                literal tLiteral = t.literal;
+                literal alphaLit = t.A.literal;
+                literal betaLit = t.B.literal;
+                literal gammaLit = t.G.literal;
+
+                outputFile << -alphaLit << " " << -betaLit << " " << -gammaLit << " " << tLiteral << " 0" << std::endl;
+                outputFile << -tLiteral << " " << alphaLit << " 0" << std::endl;
+                outputFile << -tLiteral << " " << betaLit << " 0" << std::endl;
+                outputFile << -tLiteral << " " << gammaLit << " 0" << std::endl;
+            }
+        } else {
+            outputFile << leftHandSideAsTVariables.at(i).literal << " 0" << std::endl;
+            for (int j = 0; j < leftHandSideAsTVariables.at(i).holder.size(); j++) {
+                T_Variable t = leftHandSideAsTVariables.at(i).holder.at(j);
+                literal tLiteral = t.literal;
+                literal alphaLit = t.A.literal;
+                literal betaLit = t.B.literal;
+                literal gammaLit = t.G.literal;
+
+                outputFile << alphaLit << " " << betaLit << " " << gammaLit << " " << tLiteral << " 0" << std::endl;
+                outputFile << -tLiteral << " " << -alphaLit << " 0" << std::endl;
+                outputFile << -tLiteral << " " << -betaLit << " 0" << std::endl;
+                outputFile << -tLiteral << " " << -gammaLit << " 0" << std::endl;
+
+
             }
         }
 
 
-    }
-
-    for (int i = 0; i < leftHandSideAsTVariables.size(); i++) {
-        for (int j = 0; j < leftHandSideAsTVariables.at(i).size(); j++) {
-            T_Variable t = leftHandSideAsTVariables.at(i).at(j);
-            literal tLiteral = t.literal;
-            literal alphaLit = t.A.literal;
-            literal betaLit = t.B.literal;
-            literal gammaLit = t.G.literal;
-
-            outputFile << -alphaLit << " " << -betaLit << " " << -gammaLit << " " << tLiteral << " 0" << std::endl;
-            outputFile << -tLiteral << " " << alphaLit << " 0" << std::endl;
-            outputFile << -tLiteral << " " << betaLit << " 0" << std::endl;
-            outputFile << -tLiteral << " " << gammaLit << " 0" << std::endl;
-
-
-        }
     }
 
 

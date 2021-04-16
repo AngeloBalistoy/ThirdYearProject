@@ -1,13 +1,18 @@
 //
 // Created by balis on 05/02/2021.
 //
-#include <stdint.h>
+#include <cstdint>
 #include <ostream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <fstream>
 #include<algorithm>
 #include<unordered_map>
+#include <iostream>
+#include <cstdint>
+#include <cstdlib>
+#include<vector>
+#include<bitset>
 #ifndef DISSERTATION_BRENTCOMPONENT_H
 #define DISSERTATION_BRENTCOMPONENT_H
 typedef uint16_t  index;
@@ -85,6 +90,9 @@ struct S_Variable : ContainsLiteral{
 
 };
 */
+
+
+
 struct T_Variable : ContainsLiteral{
     BrentComponent A;
     BrentComponent B;
@@ -93,6 +101,12 @@ struct T_Variable : ContainsLiteral{
     T_Variable(BrentComponent& A,BrentComponent& B, BrentComponent& G);
 
 
+};
+
+struct T_VariableHolder : ContainsLiteral {
+    std::vector<T_Variable> holder = {};
+    literal literal;
+    T_VariableHolder();
 };
 bool processRHS(Delta);
 

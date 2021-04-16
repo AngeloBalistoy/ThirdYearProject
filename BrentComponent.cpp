@@ -91,8 +91,10 @@ void createEvenNumberOfCombinations(std::ostream& outputFileEven,uint16_t number
 }
 
 
+
 BrentComponent::BrentComponent() {
 
 }
 
 
+T_VariableHolder::T_VariableHolder() : literal(++counter) {}
