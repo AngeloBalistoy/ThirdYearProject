@@ -103,9 +103,8 @@ struct T_Variable : ContainsLiteral{
 
 };
 
-struct T_VariableHolder : ContainsLiteral {
+struct T_VariableHolder {
     std::vector<T_Variable> holder = {};
-    literal literal;
     T_VariableHolder();
 };
 bool processRHS(Delta);

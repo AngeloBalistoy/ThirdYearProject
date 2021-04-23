@@ -97,4 +97,4 @@ BrentComponent::BrentComponent() {
 }
 
 
-T_VariableHolder::T_VariableHolder() : literal(++counter) {}
+T_VariableHolder::T_VariableHolder() {}
